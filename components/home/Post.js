@@ -1,4 +1,4 @@
-import { View, Text ,Image , StyleSheet, TouchableOpacity} from 'react-native'
+import { View, Text ,Image , StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Divider } from 'react-native-elements'
 
@@ -33,6 +33,10 @@ const Post = ({post}) => {
     <View style={{marginHorizontal:15 , marginTop :10}}>
 
     <PostFooter />
+    <Likes post={post} />
+    <Caption post={post} />
+    <CommentsSection post={post} />
+    <Comments post={post} />
     </View>
 
     </View>
@@ -74,7 +78,10 @@ const PostFooter  = () => (
 
   <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[0].imageUrl} />
   <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[1].imageUrl} />
-  <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[2].imageUrl} />
+  <Icon imgStyle={[styles.footerIcon , styles.shareIcon]} imgUrl={postFooterIcons[2].imageUrl} />
+  </View>
+  <View style={{flex:1 , alignItems:'flex-end'}}>
+  <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[3].imageUrl} />
   </View>
   </View>
 )
@@ -83,6 +90,45 @@ const Icon = ({imgStyle , imgUrl}) =>(
   <TouchableOpacity>
     <Image style={imgStyle} source= {{uri : imgUrl}} />
   </TouchableOpacity>
+)
+
+const Likes = ({post}) =>(
+  <View style={{flexDirection:'row' , marginTop:4}}>
+
+  <Text style={{color:'black' ,  fontWeight:'600'}}>{post.likes.toLocaleString('en')} likes</Text>
+  </View>
+
+)
+
+const Caption = ({post}) => (
+  <View style={{marginTop : 5}}>
+  <Text style={{color:'black'}}>
+  <Text style={{fontWeight:'600'}}>{post.user} </Text> 
+  <Text> {post.caption} </Text> 
+  </Text>
+  </View>
+)
+
+const CommentsSection = ({post}) => (
+  <View style={{marginTop:5}}>
+  {!!post.comments.length && (
+
+  <Text style={{color:'grey'}}>View{post.comments.length >1 ? ' all' : ''} {post.comments.length}{' '}{post.comments.length >1 ? 'comments' : 'comment'}</Text>
+  )}
+  </View>
+)
+
+const Comments = ({post}) => (
+  <>
+    {post.comments.map((comment ,  index) =>(
+      <View key={index} style={{flexDirection:'row' , marginTop:3}}>
+        <Text style={{color:'black'}}>
+        <Text style={{fontWeight:'600'}}>{comment.user}</Text>{' '}
+          {comment.comment}
+        </Text>
+      </View>
+    ))}
+  </>
 )
 
 const styles = StyleSheet.create({
@@ -99,11 +145,16 @@ const styles = StyleSheet.create({
       height: 33,
 
     },
+    shareIcon:{
+      transform:[{rotate:'10deg'}],
+      marginTop: -3,
+    },
     leftFooterIconsContainer:{
       flexDirection:'row',
       width:'32%',
       justifyContent:'space-between'
-    }
+    },
+
   
 })
 
