@@ -44,7 +44,7 @@ const FormikPostUploader = ({ navigation }) => {
           >
             <Image
               source={{
-                uri: validUrl.isUrl(thumbnailUrl)
+                uri: validUrl.isUri(thumbnailUrl)
                   ? thumbnailUrl
                   : PLACEHOLDER_IMG,
               }}
