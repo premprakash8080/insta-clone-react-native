@@ -22,12 +22,22 @@ const LoginForm = ({navigation}) => {
       .min(8, "Your password has to have at least 8 characters"),
   });
 
-  const onLogin = async (email, password) =>{
+  const onLogin =  async (email, password) =>{
     try{
-        await firebase.auth().signInWithEmailAndPassword(email, password)
-        console.log('Firebase Login', email,password)
+
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+      console.log('firebase login sucessful', email, password)
     }catch(error){
-        Alert.alert(error.message)
+      Alert.alert('My Lord..', error.message + '\n\n... What would you like to do next! ?',
+      [
+        {
+          text:'OK',
+          onPress:() => console.log('OK'),
+          style:'cancel',
+        },
+        { text: 'Sign Up', onPress:() => navigation.push('SignupScreen') },
+      ]
+      )
     }
   }
   return (
